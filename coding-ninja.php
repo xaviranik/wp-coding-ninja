@@ -74,7 +74,11 @@ final class Coding_Ninja {
 	 * @return void
 	 */
 	public function init_plugin() {
-		new WeDevs\Ninja\Admin\Menu();
+		if ( is_admin() ) {
+			new WeDevs\Ninja\Admin();
+		} else {
+			new WeDevs\Ninja\Frontend();
+		}
 	}
 
 	/**
