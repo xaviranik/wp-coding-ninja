@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 /**
  * Main plugin class
  */
@@ -27,13 +29,17 @@ final class Coding_Ninja {
 	 * Coding Ninja Version
 	 * @var string
 	 */
-	const $version = '1.0.0';
+	const version = '1.0.0';
 	
 	/**
 	 * Class Constructor
 	 */
 	private function __construct() {
 		$this->define_constants();
+
+		register_activation_hook( __FILE__, [ $this, 'activate' ] );
+
+		add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
 	}
 
 	/**
@@ -55,13 +61,34 @@ final class Coding_Ninja {
 	 * Defines plugin constants
 	 * @return void
 	 */
-	public function define_constants()
-	{
-		define( 'CODING_NINJA_VERSION',  self::version);
-		define( 'CODING_NINJA_FILE',  __FILE__);
-		define( 'CODING_NINJA_PATH',  __DIR__);
+	public function define_constants() {
+		define( 'CODING_NINJA_VERSION',  self::version );
+		define( 'CODING_NINJA_FILE',  __FILE__ );
+		define( 'CODING_NINJA_PATH',  __DIR__ );
 		define( 'CODING_NINJA_URL',  plugins_url( '', CODING_NINJA_FILE ) );
 		define( 'CODING_NINJA_ASSETS',  CODING_NINJA_URL . '/assets' );
+	}
+
+	/**
+	 * Plugin init
+	 * @return void
+	 */
+	public function init_plugin() {
+		new WeDevs\Ninja\Admin\Menu();
+	}
+
+	/**
+	 * Executes on plugin activation
+	 * @return void
+	 */
+	public function activate() {
+		$installed = get_option( 'coding_ninja_installed' );
+
+		if ( ! $installed ) {
+			update_option( 'coding_ninja_installed', time() );
+		}
+
+		update_option( 'coding_ninja_version', CODING_NINJA_VERSION );
 	}
 }
 
