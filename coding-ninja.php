@@ -17,3 +17,61 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+/**
+ * Main plugin class
+ */
+final class Coding_Ninja {
+
+	/**
+	 * Coding Ninja Version
+	 * @var string
+	 */
+	const $version = '1.0.0';
+	
+	/**
+	 * Class Constructor
+	 */
+	private function __construct() {
+		$this->define_constants();
+	}
+
+	/**
+	 * Initializes a Singleton
+	 * @return \Coding_Ninja
+	 */
+	public static function init() {
+
+		static $instance = false;
+
+		if ( ! $instance ) {
+			$instance = new Self();
+		}
+
+		return $instance;
+	}
+
+	/**
+	 * Defines plugin constants
+	 * @return void
+	 */
+	public function define_constants()
+	{
+		define( 'CODING_NINJA_VERSION',  self::version);
+		define( 'CODING_NINJA_FILE',  __FILE__);
+		define( 'CODING_NINJA_PATH',  __DIR__);
+		define( 'CODING_NINJA_URL',  plugins_url( '', CODING_NINJA_FILE ) );
+		define( 'CODING_NINJA_ASSETS',  CODING_NINJA_URL . '/assets' );
+	}
+}
+
+/**
+ * Coding Ninja Instance init
+ * @return \Coding_Ninja
+ */
+function coding_ninja_init() {
+	return Coding_Ninja::init();
+}
+
+// Initialize the plugin
+coding_ninja_init();
