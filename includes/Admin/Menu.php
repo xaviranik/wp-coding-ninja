@@ -8,8 +8,11 @@ use WeDevs\Ninja\Admin\Addressbook;
  * Menu handler class
  */
 class Menu {
+
+	public $addressbook;
 	
-	function __construct() {
+	function __construct( $addressbook ) {
+		$this->addressbook = $addressbook;
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 	}
 
@@ -26,7 +29,6 @@ class Menu {
 	}
 
 	public function addressbook_page() {
-		$addressbook = new Addressbook();
-		$addressbook->plugin_page();
+		$this->addressbook->plugin_page();
 	}
 }

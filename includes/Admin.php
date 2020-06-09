@@ -14,16 +14,16 @@ class Admin {
 	 * Admin Constructor
 	 */
 	function __construct() {
-		$this->dispatch_actions();
-		new Menu();
+		$addressbook = new Addressbook();
+		$this->dispatch_actions( $addressbook );
+		new Menu( $addressbook );
 	}
 
 	/**
 	 * Dispatching all admin relation actions
 	 * @return void
 	 */
-	public function dispatch_actions() {
-		$addressbook = new Addressbook();
+	public function dispatch_actions( $addressbook ) {
 		add_action( 'admin_init', [ $addressbook, 'form_handler' ] );
 	}
 }

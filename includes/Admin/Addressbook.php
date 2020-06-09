@@ -7,6 +7,8 @@ namespace WeDevs\Ninja\Admin;
  */
 class Addressbook
 {
+	public $errors = [];
+
 	/**
 	 * Plugin page router based on action
 	 * @return void
@@ -50,7 +52,34 @@ class Addressbook
 			wp_die( 'No permision to see this page' );
 		}
 
-		var_dump($_POST);
+		$name = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
+		$address = isset( $_POST['address'] ) ? sanitize_textarea_field( $_POST['address'] ) : '';
+		$phone = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+
+		if ( empty( $name ) ) {
+			$this->errors[] = __( 'Please provide a name', 'coding-ninja' );
+		}
+
+		if ( empty( $phone ) ) {
+			$this->errors[] = __( 'Please provide a phone', 'coding-ninja' );
+		}
+
+		if ( ! empty( $this->errors ) ) {
+			return;
+		}
+
+		$insert_id = wd_cn_insert_address([
+			'name'    => $name,
+			'address' => $address,
+			'phone'   => $phone,
+		]);
+
+		if ( is_wp_error( $insert_id ) ) {
+			wp_die( $insert_id->get_error_message() );	
+		}
+
+		$redirected_to = admin_url( "admin.php?page=coding_ninja&inserted=true" );
+		wp_redirect( $redirected_to );
 		exit();
 	}
 }
