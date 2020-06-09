@@ -86,13 +86,8 @@ final class Coding_Ninja {
 	 * @return void
 	 */
 	public function activate() {
-		$installed = get_option( 'coding_ninja_installed' );
-
-		if ( ! $installed ) {
-			update_option( 'coding_ninja_installed', time() );
-		}
-
-		update_option( 'coding_ninja_version', CODING_NINJA_VERSION );
+		$installer = new WeDevs\Ninja\Installer;
+		$installer->run();
 	}
 }
 
