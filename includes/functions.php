@@ -22,7 +22,7 @@ function wd_cn_insert_address( $args = [] ) {
 	$data = wp_parse_args( $args, $defaults );
 
 	$inserted = $wpdb->insert( 
-		"{$wpdb->prefix}cn_addressbook", 
+		"{$wpdb->prefix}cn_addressbooks", 
 		$data, 
 		[
 			'%s',
@@ -38,4 +38,43 @@ function wd_cn_insert_address( $args = [] ) {
 	}
 
 	return $wpdb->insert_id;
+}
+
+/**
+ * Gets all the address
+ * @param  array  $args
+ * @return array
+ */
+function wd_cn_get_addresses( $args = [] ) {
+	global $wpdb;
+
+    $defaults = [
+        'number'  => 20,
+        'offset'  => 0,
+        'orderby' => 'id',
+        'order'   => 'ASC'
+    ];
+
+    $args = wp_parse_args( $args, $defaults );
+
+    $sql = $wpdb->prepare(
+            "SELECT * FROM {$wpdb->prefix}cn_addressbooks
+            ORDER BY {$args['orderby']} {$args['order']}
+            LIMIT %d, %d",
+            $args['offset'], $args['number']
+    );
+
+    $items = $wpdb->get_results( $sql );
+
+    return $items;
+}
+
+/**
+ * Returns total number of address
+ * @return integer
+ */
+function wd_cn_get_address_count() {
+	global $wpdb;
+
+    return (int) $wpdb->get_var( "SELECT count(id) FROM {$wpdb->prefix}cn_addressbooks" );
 }

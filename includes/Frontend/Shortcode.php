@@ -21,6 +21,6 @@ class Shortcode {
 	 * @return string
 	 */
 	public function render_shortcode( $attrs, $content = '' ) {
-		return "Hello From Shortcode";
+		return "<h6>Hello From Shortcode</h6>";
 	}
 }

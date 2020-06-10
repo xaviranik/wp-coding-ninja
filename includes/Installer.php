@@ -33,7 +33,7 @@ class Installer {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}cn_addressbook` ( 
+		$schema = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}cn_addressbooks` ( 
 			`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(100) NOT NULL , `address` VARCHAR(255) NULL , 
 			`phone` VARCHAR(30) NULL , `created_by` BIGINT(20) NOT NULL , `created_at` DATETIME NOT NULL , 
 			PRIMARY KEY (`id`)) 
