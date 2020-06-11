@@ -78,3 +78,31 @@ function wd_cn_get_address_count() {
 
     return (int) $wpdb->get_var( "SELECT count(id) FROM {$wpdb->prefix}cn_addressbooks" );
 }
+
+/**
+ * Returns a single address
+ * @param integer 
+ * @return array
+ */
+function wd_cn_get_address( $id ) {
+	global $wpdb;
+
+	return $wpdb->get_row(
+		$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}cn_addressbooks WHERE id = %d", $id )
+	);
+}
+
+/**
+ * Deletes a single address
+ * @param  integer
+ * @return integer|boolean
+ */
+function wd_cn_delete_address( $id ) {
+	global $wpdb;
+
+	return $wpdb->delete(
+		$wpdb->prefix . 'cn_addressbooks',
+		[ 'id' => $id ],
+		[ '%d' ]
+	);
+}

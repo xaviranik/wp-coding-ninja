@@ -1,13 +1,14 @@
 <?php
 
 namespace WeDevs\Ninja\Admin;
+use WeDevs\Ninja\Traits\Form_Error;
 
 /**
  * Addressbook Class
  */
 class Addressbook
 {
-	public $errors = [];
+	use Form_Error;
 
 	/**
 	 * Plugin page router based on action
@@ -57,11 +58,11 @@ class Addressbook
 		$phone = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
 
 		if ( empty( $name ) ) {
-			$this->errors[] = __( 'Please provide a name', 'coding-ninja' );
+			$this->errors['name'] = __( 'Please provide a name', 'coding-ninja' );
 		}
 
 		if ( empty( $phone ) ) {
-			$this->errors[] = __( 'Please provide a phone', 'coding-ninja' );
+			$this->errors['phone'] = __( 'Please provide a phone', 'coding-ninja' );
 		}
 
 		if ( ! empty( $this->errors ) ) {
