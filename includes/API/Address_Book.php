@@ -79,7 +79,7 @@ class Address_Book extends WP_REST_Controller {
 		unset( $args['page'] );
 
 		$data     = [];
-		$contacts = wd_cn_get_address( $args );
+		$contacts = wd_cn_get_addresses( $args );
 
 		foreach ( $contacts as $contact ) {
 			$response = $this->prepare_item_for_response( $contact, $request );
@@ -141,14 +141,14 @@ class Address_Book extends WP_REST_Controller {
 	/**
 	 * Prepares links for the request.
 	 *
-	 * @param $item
+	 * @param \WP_Post $post Post object.
 	 *
 	 * @return array Links for the given post.
 	 */
 	protected function prepare_links( $item ) {
 		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
 
-		$links = [
+		return [
 			'self' => [
 				'href' => rest_url( trailingslashit( $base ) . $item->id ),
 			],
@@ -156,8 +156,6 @@ class Address_Book extends WP_REST_Controller {
 				'href' => rest_url( $base ),
 			],
 		];
-
-		return $links;
 	}
 
 	/**
