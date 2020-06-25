@@ -79,6 +79,8 @@ final class Coding_Ninja {
 		} else {
 			new WeDevs\Ninja\Frontend();
 		}
+
+		new WeDevs\Ninja\API();
 	}
 
 	/**
