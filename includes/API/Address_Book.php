@@ -87,11 +87,7 @@ class Address_Book extends WP_REST_Controller {
 	 * @return boolean
 	 */
 	public function get_items_permissions_check( $request ) {
-		if ( current_user_can( 'manage_options' ) ) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -167,10 +163,7 @@ class Address_Book extends WP_REST_Controller {
 	 * @return \WP_Error|bool
 	 */
 	public function get_item_permissions_check( $request ) {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
+		
 		$contact = $this->get_contact( $request['id'] );
 
 		if ( is_wp_error( $contact ) ) {
